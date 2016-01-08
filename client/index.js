@@ -14,7 +14,6 @@ milo(function() {
         socket.on('db', function (msg) {
             db.set(msg.data);
             db.on('datachanges', updateDB);
-            console.log(msg.data);
         });
 
         socket.on('datachanges', function (msg) {
