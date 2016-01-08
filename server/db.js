@@ -11,5 +11,5 @@ module.exports = db;
 db.on('changedata', _.throttle(updateDB, 2000, { leading: false }));
 
 function updateDB() {
-    fs.writeFile(__dirname + '/db.json', JSON.stringify(db.get()), _.noop);
+    fs.writeFile(__dirname + '/db.json', JSON.stringify(db.get(), null, '  '), _.noop);
 }
