@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>slack clone</title>
+    <script src="../node_modules/milojs/dist/milo.bundle.js"></script>
+    <script src="../node_modules/milo-ui/dist/milo_ui.bundle.js"></script>
+    <script src="app.bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div ml-bind="ChannelsPane:channelsPane">
+        <h2>channels</h2>
+        <ul ml-bind="[list]:list">
+            <li ml-bind="ChannelItem">
+                <span ml-bind="[data]:title"></span>
+            </li>
+        </ul>
+        <button type="button" ml-bind="[events]:createChannel">Create</button>
+    </div>
+    <div ml-bind="Channel:channel">
+        <div ml-bind="[data]:description">
+            <div ml-bind="[data]:title"></div>
+        </div>
+        <div ml-bind="[list]:messages">
+            <div ml-bind="MessageItem">
+                <span ml-bind="[data]:senderHandle">
+                <span ml-bind="[data]:text">
+            </div>
+        </div>
+        <div>
+            <input ml-bind=":newMessage">
+            <button type="button">send</button>
+        </div>
+    </div>
+</body>
+</html>
