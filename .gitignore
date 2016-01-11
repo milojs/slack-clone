@@ -27,3 +27,4 @@ build/Release
 node_modules
 
 client/app.bundle.js
+server/db.json
