@@ -23,6 +23,8 @@ function childrenBound() {
     this.createChannel = this.container.scope.createChannel;
     this.createChannel.events.on('click', { subscriber: createChannel, context: this });
 
+    this.userHandle = this.container.scope.userHandle;
+
     this.channelsList.data.once('', { subscriber: selectFirstChannel, context: this });
 }
 
@@ -53,14 +55,14 @@ function getFormSchema() {
         items: [
             {
                 type: 'input',
-                label: 'Channel title',
+                placeholder: 'Channel title',
                 modelPath: '.title'
             },
             {
                 type: 'input',
-                label: 'Channel description',
+                placeholder: 'Channel description',
                 modelPath: '.description'
             }
         ]
-    }
+    };
 }

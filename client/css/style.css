@@ -1,0 +1,125 @@
+body, html {
+    padding: 0px;
+    margin: 0px;
+    font-family: sans-serif;
+    height: 100%;
+    overflow: hidden;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 1.6em;
+    color: white;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+}
+
+button {
+    height: 46px;
+    background-color: #eee;
+    border: none;
+    border: 2px solid #ddd;
+    font-size: 1em;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+
+input {
+    font-size: 1.2em;
+    padding: 0.5em;
+    color: #454545;
+    border-radius: 4px;
+    border: 2px solid #ddd;
+    height: 46px;
+    box-sizing: border-box;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.channels-pane {
+    float: left;
+    padding: 0 12px 12px 12px;
+    height: calc(100% - 62px);
+}
+
+.channels-pane, .user-handle {
+    background-color: rgb(77, 58, 74);
+    color: rgb(171, 156, 168);
+    width: 250px;
+    box-sizing: border-box;
+}
+
+.channels-pane ul li {
+    cursor: pointer;
+}
+
+.channels-pane ul li:before {
+    content: "#";
+}
+
+.channels-pane ul li.selected {
+    color: white;
+    font-weight: bold;
+}
+
+
+.channel {
+    float: left;
+    width: calc(100% - 250px);
+    height: 100%;
+    position: relative;
+}
+
+.new-message {
+    padding: 8px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.new-message input {
+    width: calc(100% - 86px);
+}
+
+.new-message button {
+    position: relative; top: -1px;
+}
+
+.channel-description {
+    height: 30px;
+    width: 100%;
+    background-color: #aaa;
+    position: absolute;
+    top: 0px;
+}
+
+.channel-messages {
+    position: absolute;
+    bottom: 62px;
+    max-height: calc(100% - 92px);
+    overflow: scroll;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.user-handle {
+    padding: 8px;
+    position: absolute;
+    bottom: 0;
+}
+
+.user-handle label {
+    display: block;
+}
+
+.user-handle input {
+
+}

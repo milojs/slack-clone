@@ -6,7 +6,8 @@
     <script src="../node_modules/milojs/dist/milo.bundle.js"></script>
     <script src="../node_modules/milo-ui/dist/milo_ui.bundle.js"></script>
     <script src="app.bundle.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-modal.css">
 </head>
 <body>
     <div ml-bind="ChannelsPane:channelsPane" class="channels-pane">
@@ -19,13 +20,17 @@
         </ul>
         <button type="button" ml-bind="[events]:createChannel">Create</button>
     </div>
+    <div ml-bind="UserHandle:userHandle" class="user-handle">
+        <input placeholder="Your handle">
+    </div>
     <div ml-bind="Channel:channel" class="channel">
         <div ml-bind="[data]:description" class="channel-description">
             <div ml-bind="[data]:title"></div>
         </div>
         <div ml-bind="[list]:messages" class="channel-messages">
             <div ml-bind="MessageItem">
-                <span ml-bind="[data]:senderHandle"></span>
+                <span ml-bind="[data]:timestamp"></span>
+                <span ml-bind="[data]:userHandle"></span>:
                 <span ml-bind="[data]:text"></span>
             </div>
         </div>
