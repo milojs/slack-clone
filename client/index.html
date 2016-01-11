@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div ml-bind="ChannelsPane:channelsPane">
-        <h2>channels</h2>
+    <div ml-bind="ChannelsPane:channelsPane" class="channels-pane">
+        <h2>Channels</h2>
         <ul ml-bind="[list]:channelsList">
             <li ml-bind="ChannelItem">
                 <span ml-bind="[data]:id" class="hidden"></span>
@@ -19,19 +19,19 @@
         </ul>
         <button type="button" ml-bind="[events]:createChannel">Create</button>
     </div>
-    <div ml-bind="Channel:channel">
-        <div ml-bind="[data]:description">
+    <div ml-bind="Channel:channel" class="channel">
+        <div ml-bind="[data]:description" class="channel-description">
             <div ml-bind="[data]:title"></div>
         </div>
-        <div ml-bind="[list]:messages">
+        <div ml-bind="[list]:messages" class="channel-messages">
             <div ml-bind="MessageItem">
                 <span ml-bind="[data]:senderHandle"></span>
                 <span ml-bind="[data]:text"></span>
             </div>
         </div>
-        <div>
+        <div class="new-message">
             <input ml-bind=":newMessage">
-            <button type="button" ml-bind="[events]:sendMessage">send</button>
+            <button type="button" ml-bind="[events]:sendMessage">Send</button>
         </div>
     </div>
 </body>

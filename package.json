@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "browserify -e ./client/index.js -o client/app.bundle.js"
+    "bundle": "browserify -e ./client/index.js -o client/app.bundle.js",
+    "start": "nodemon --ignore db.json --ignore client app.js",
+    "watch": "watch 'npm run bundle' ./client"
   },
   "repository": {
     "type": "git",
@@ -22,15 +24,17 @@
   },
   "homepage": "https://github.com/milojs/slack-clone#readme",
   "dependencies": {
+    "express": "^4.13.3",
     "milo-core": "^1.0.3",
     "milo-ui": "^1.0.5",
-    "milojs": "^1.1.8",
+    "milojs": "^1.2.0",
     "node-babel": "^0.1.2",
     "protojs": "^1.0.3",
     "socket.io": "^1.4.2",
     "socket.io-client": "^1.4.3"
   },
   "devDependencies": {
-    "browserify": "^12.0.1"
+    "browserify": "^12.0.1",
+    "watch": "^0.17.1"
   }
 }

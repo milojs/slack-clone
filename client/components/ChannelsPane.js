@@ -8,19 +8,13 @@ var ChannelsPane = milo.createComponentClass({
         container: undefined
     },
     methods: {
-        start: start
+        childrenBound: childrenBound
     }
 });
 
 
-function start() {
-    ChannelsPane.super.start.apply(this, arguments);
-    this.on('childrenbound', onChildrenBound);
-    
-}
-
-
-function onChildrenBound() {
+function childrenBound() {
+    ChannelsPane.super.childrenBound.apply(this, arguments);
     this.channelsList = this.container.scope.channelsList;
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
