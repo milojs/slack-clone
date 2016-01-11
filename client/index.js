@@ -6,7 +6,7 @@ var db = require('./db');
 milo(function() {
     milo.binder();
 
-    var socket = io('http://localhost:4000');
+    var socket = io(window.location.origin);
 
     socket.on('connect', function() {
         console.log('connected');

@@ -12,12 +12,26 @@ var ChannelItem = milo.createComponentClass({
         }
     },
     methods: {
-
+        select: select
     }
 });
 
 
 function onChannelClick() {
+    this.select();
+}
+
+
+function select() {
     var id = this.data.path('.id').get();
     milo.mail.postMessage('showchannel', { id: id });
+    showSelected.call(this);
+}
+
+
+function showSelected() {
+    this.item.list.each(function(comp) {
+        comp.el.classList.remove('selected');
+    });
+    this.el.classList.add('selected');
 }

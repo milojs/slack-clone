@@ -17,6 +17,16 @@ ul, li {
     padding: 0;
 }
 
+button {
+    height: 46px;
+    background-color: #eee;
+    border: none;
+    border: 2px solid #ddd;
+    font-size: 1em;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
 .hidden {
     display: none;
 }
@@ -29,6 +39,10 @@ ul, li {
     padding: 0 12px 12px 12px;
     box-sizing: border-box;
     height: 100%;
+}
+
+.channels-pane ul li {
+    cursor: pointer;
 }
 
 .channels-pane ul li:before {
@@ -67,12 +81,6 @@ ul, li {
 }
 
 .new-message button {
-    height: 46px;
-    background-color: #eee;
-    border: none;
-    border: 2px solid #ddd;
-    font-size: 1em;
-    padding: 0 12px;
     position: relative; top: -1px;
 }
 
