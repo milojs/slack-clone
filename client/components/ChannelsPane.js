@@ -1,6 +1,7 @@
 'use strict';
 
 var db = require('../db');
+var tagOptions = require('./taglist');
 var MLDialog = milo.registry.components.get('MLDialog');
 var MLForm = milo.registry.components.get('MLForm');
 
@@ -38,14 +39,32 @@ function selectFirstChannel() {
 function createChannel() {
     var dialog = MLDialog.createDialog({
         title: 'Create new channel',
-        html: 'Please enter channel meta data:'
+        html: 'Please enter channel meta data:',
+        buttons: [
+            {
+                label: 'Cancel',
+                result: 'CANCEL'
+            },
+            {
+                label: 'Create',
+                result: 'OK',
+                close: false
+            }
+        ]
     });
 
-    var form = MLForm.createForm(getFormSchema(), this);
+    var form = MLForm.createForm(getFormSchema(), this, getDefaults());
     dialog.container.scope.dialogBody.container.append(form);
 
     dialog.openDialog(function (result) {
-        console.log('wrergerg', result, form.model.get());
+        if (result == 'OK' && form.isValid()) {
+            var newMeta = form.model.get();
+            var length = db('.channels').len();
+            newMeta.id = 'ch' + (length + 1);
+            db('.channels').push(newMeta);
+            dialog.closeDialog();
+            dialog.destroy();
+        }
     });
 }
 
@@ -55,14 +74,48 @@ function getFormSchema() {
         items: [
             {
                 type: 'input',
-                placeholder: 'Channel title',
-                modelPath: '.title'
+                label: 'Channel title',
+                modelPath: '.title',
+                validate: {
+                    fromModel: ['required'],
+                    toModel: ['required']
+                }
             },
             {
                 type: 'input',
-                placeholder: 'Channel description',
-                modelPath: '.description'
+                label: 'Channel description',
+                modelPath: '.description',
+                validate: {
+                    fromModel: ['required'],
+                    toModel: ['required']
+                }
+            },
+            {
+                type: 'checkbox',
+                label: 'Private',
+                modelPath: '.isPrivate'
+            },
+            {
+                type: 'combolist',
+                label: 'Tags',
+                modelPath: '.tags',
+                comboOptions: tagOptions,
+                translate: {
+                    toModel: function (val) {
+                        return val && val.map(function (v) { return v.value; });
+                    }
+                }
             }
         ]
+    }
+}
+
+
+function getDefaults() {
+    return {
+        title: '',
+        description: '',
+        tags: [],
+        id: ''
     };
 }

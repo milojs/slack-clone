@@ -30,7 +30,7 @@ function select() {
 
 
 function showSelected() {
-    this.item.list.each(function(comp) {
+    this.item.list.each(function (comp) {
         comp.el.classList.remove('selected');
     });
     this.el.classList.add('selected');
