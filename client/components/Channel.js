@@ -19,6 +19,10 @@ function childrenBound() {
 
     this.messages = this.container.scope.messages;
     this.newMessage = this.container.scope.newMessage;
+
+    this.newMessage.events.on('keypress',
+        { subscriber: onKeyPress, context: this });
+
     this.container.scope.sendMessage.events.on('click',
         { subscriber: sendMessage, context: this });
 
@@ -33,6 +37,11 @@ function showChannel(msg, data) {
     if (this.connector) milo.minder.destroyConnector(this.connector);
     this.messages.data.set(messagesDb.get());
     this.connector = milo.minder(messagesDb, '->>>', this.messages.data);
+}
+
+
+function onKeyPress(eventType, event) {
+    if (event.keyCode == 13) sendMessage.call(this);
 }
 
 
