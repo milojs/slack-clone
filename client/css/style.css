@@ -25,6 +25,7 @@ button {
     font-size: 1em;
     padding: 0 12px;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 
@@ -129,7 +130,7 @@ input {
     box-sizing: border-box;
 }
 
-.channel-messages .message.current-user {
+.channel-messages .message.current-user .author {
     font-weight: bold;
 }
 
@@ -145,4 +146,75 @@ input {
 
 .user-handle input {
 
+}
+
+.form-group {
+    padding-bottom: 8px;
+}
+
+.form-group label {
+    width: 160px;
+    display: block;
+    text-align: right;
+    padding-right: 10px;
+    float: left;
+    padding-top: 14px;
+}
+
+.form-group > input, .form-group .ml-ui-combo-list {
+    width: calc(100% - 180px);
+    display: inline-block;
+}
+
+.ml-ui-combo-list input {
+    width: 100%;
+}
+
+.form-group.checkbox {
+    position: relative;
+    top: -6px;
+}
+
+.form-group.checkbox label {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.form-group.checkbox input {
+    position: relative;
+    left: 170px;
+}
+
+.ml-ui-supercombo-dropdown {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.ml-ui-supercombo-options div:hover{
+    background-color: #eee;
+}
+
+.ml-ui-supercombo-options div.selected{
+    background-color: #ccc;
+}
+
+.ml-ui-combo-list .ml-ui-list {
+    margin-top: 8px;
+}
+
+.ml-ui-combo-list .list-item {
+    float: left;
+    background: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.ml-ui-combo-list .glyphicon-remove:after {
+    content: "x";
+    cursor: pointer;
+    color: red;
 }

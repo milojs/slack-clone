@@ -91,11 +91,6 @@ function getFormSchema() {
                 }
             },
             {
-                type: 'checkbox',
-                label: 'Private',
-                modelPath: '.isPrivate'
-            },
-            {
                 type: 'combolist',
                 label: 'Tags',
                 modelPath: '.tags',
@@ -105,9 +100,15 @@ function getFormSchema() {
                         return val && val.map(function (v) { return v.value; });
                     }
                 }
+            },
+            {
+                type: 'checkbox',
+                label: 'Private',
+                wrapCssClass: 'checkbox',
+                modelPath: '.isPrivate'
             }
         ]
-    }
+    };
 }
 
 
