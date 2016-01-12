@@ -18,12 +18,18 @@
                 <span ml-bind="[data]:title"></span>
             </li>
         </ul>
+
         <button type="button" ml-bind="[events]:createChannel">Create</button>
     </div>
+
+
     <div ml-bind="UserHandle:userHandle" class="user-handle">
         <input placeholder="Your handle">
     </div>
+
+
     <div ml-bind="Channel:channel" class="channel">
+
         <div ml-bind="[container,data]:info" class="channel-info">
             <h2 ml-bind="[data]:title"></h2>
             <div ml-bind="[data]:description"></div>
@@ -31,12 +37,14 @@
                 <li ml-bind="[item]:" class="channel-tag"></li>
             </ul>
         </div>
+
         <div ml-bind="[list]:messages" class="channel-messages">
             <div ml-bind="MessageItem" class="message">
                 <span ml-bind="[data]:userHandle"></span>:
                 <span ml-bind="[data]:text"></span>
             </div>
         </div>
+
         <div class="new-message">
             <input ml-bind="[events]:newMessage">
             <button type="button" ml-bind="[events]:sendMessage">Send</button>
