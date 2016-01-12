@@ -28,8 +28,7 @@
             <div ml-bind="[data]:title"></div>
         </div>
         <div ml-bind="[list]:messages" class="channel-messages">
-            <div ml-bind="MessageItem">
-                <span ml-bind="[data]:timestamp"></span>
+            <div ml-bind="MessageItem" class="message">
                 <span ml-bind="[data]:userHandle"></span>:
                 <span ml-bind="[data]:text"></span>
             </div>

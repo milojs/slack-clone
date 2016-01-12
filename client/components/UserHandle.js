@@ -11,8 +11,11 @@ var UserHandle = milo.createComponentClass({
     },
     methods: {
         childrenBound: childrenBound,
-        getHandle: getHandle,
-        setHandle: setHandle
+        setHandle: setHandle,
+        getHandle: getHandle
+    },
+    staticMethods: {
+        getHandle: getHandle
     }
 });
 

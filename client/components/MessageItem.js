@@ -1,20 +1,31 @@
 'use strict';
 
+var UserHandle = milo.registry.components.get('UserHandle');
+
+
 var MessageItem = milo.createComponentClass({
     className: 'MessageItem',
     facets: {
-        data: {
-            set: setData
-        },
-        item: undefined
+        data: undefined,
+        item: undefined,
+        css: {
+            classes: {
+                '.userHandle': isAuthor
+            }
+        }
+    },
+    methods: {
+        start: start
     }
 });
 
 
-function setData(value) {
-    if (typeof value != 'object') return;
-    value = _.clone(value);
-    var d = new Date(value.timestamp).toString();
-    value.timestamp = d.substr(16, 5);
-    this.data._set(value);
+function start() {
+    MessageItem.super.start.apply(this, arguments);
+    milo.minder(this.data, '->>', this.css);
+}
+
+
+function isAuthor(handleText) {
+    if (handleText == UserHandle.getHandle()) return 'current-user';
 }

@@ -114,6 +114,10 @@ input {
     box-sizing: border-box;
 }
 
+.channel-messages .message.current-user {
+    font-weight: bold;
+}
+
 .user-handle {
     padding: 8px;
     position: absolute;
