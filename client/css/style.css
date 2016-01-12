@@ -96,18 +96,29 @@ input {
     position: relative; top: -1px;
 }
 
-.channel-description {
-    height: 30px;
+.channel-info {
+    height: 120px;
     width: 100%;
     background-color: #aaa;
     position: absolute;
     top: 0px;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.channel-info .channel-tags {
+    margin: 0;
+}
+
+.channel-info .channel-tag {
+    display: inline-block;
+    padding-right: 8px;
 }
 
 .channel-messages {
     position: absolute;
     bottom: 62px;
-    max-height: calc(100% - 92px);
+    max-height: calc(100% - 182px);
     overflow: scroll;
     width: 100%;
     padding: 0 8px;

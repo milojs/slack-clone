@@ -26,6 +26,7 @@ function childrenBound() {
     this.container.scope.sendMessage.events.on('click',
         { subscriber: sendMessage, context: this });
 
+    this.info = this.container.scope.info;
     this.userHandle = this.scope.userHandle;
 }
 
@@ -39,6 +40,12 @@ function showChannel(msg, data) {
     if (this.connector) milo.minder.destroyConnector(this.connector);
     this.messages.data.set(messagesDb.get());
     this.connector = milo.minder(messagesDb, '->>>', this.messages.data);
+
+    var channels = db('.channels').get();
+    var info = channels.find(function(ch) {
+        return ch.id == id;
+    });
+    this.info.data.set(info);
 }
 
 

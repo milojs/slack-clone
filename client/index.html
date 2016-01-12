@@ -24,8 +24,13 @@
         <input placeholder="Your handle">
     </div>
     <div ml-bind="Channel:channel" class="channel">
-        <div ml-bind="[data]:description" class="channel-description">
-            <div ml-bind="[data]:title"></div>
+        <div ml-bind="[container,data]:info" class="channel-info">
+            <h2 ml-bind="[data]:title"></h2>
+            <div ml-bind="[data]:description"></div>
+            <ul ml-bind="[list]:tags" class="channel-tags">
+                <span>tags:</span>
+                <li ml-bind="[item]:" class="channel-tag"></li>
+            </ul>
         </div>
         <div ml-bind="[list]:messages" class="channel-messages">
             <div ml-bind="MessageItem" class="message">

@@ -3,30 +3,36 @@
     {
       "id": "ch1",
       "title": "Welcome",
-      "tags": [],
+      "tags": [
+        "chat",
+        "welcome"
+      ],
       "description": "Welcome to slack clone"
     },
     {
       "id": "ch2",
       "title": "Milo",
-      "tags": [],
+      "tags": [
+        "milo",
+        "javascript"
+      ],
       "description": "Everybody has a share"
     }
   ],
   "messages": {
     "ch1": [
       {
+        "userHandle": "Jason",
         "text": "Hello there. You are using slack clone",
         "channel_id": "ch1",
-        "userHandle": "WelcomeBot",
         "timestamp": "2016-01-08T18:06:44.869Z"
       }
     ],
     "ch2": [
       {
+        "userHandle": "Evgeny",
         "text": "Making full stack reactivity with milo",
         "channel_id": "ch2",
-        "userHandle": "Evgeny",
         "timestamp": "2016-01-08T18:05:46.299Z"
       }
     ]
