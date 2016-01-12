@@ -102,7 +102,7 @@ input {
     background-color: #aaa;
     position: absolute;
     top: 0px;
-    padding: 0 8px;
+    padding: 0 12px;
     box-sizing: border-box;
 }
 
@@ -112,7 +112,11 @@ input {
 
 .channel-info .channel-tag {
     display: inline-block;
-    padding-right: 8px;
+    margin-right: 8px;
+    padding: 1px 5px;
+    background-color: #888;
+    border-radius: 3px;
+    font-size: 0.8em;
 }
 
 .channel-messages {
