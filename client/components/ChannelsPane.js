@@ -1,7 +1,7 @@
 'use strict';
 
 var db = require('../db');
-var tagOptions = require('./taglist');
+var tagOptions = require('./taglist.json');
 var MLDialog = milo.registry.components.get('MLDialog');
 var MLForm = milo.registry.components.get('MLForm');
 
