@@ -28,5 +28,4 @@ node_modules
 
 .DS_Store
 
-client/app.bundle.js
 server/db.json

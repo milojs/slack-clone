@@ -1,0 +1,22 @@
+{
+  "channels": [
+    {
+      "id": "ch1",
+      "title": "Welcome",
+      "tags": [
+        "chat",
+        "welcome"
+      ],
+      "description": "Welcome to slack clone"
+    },
+    {
+      "id": "ch2",
+      "title": "Milo",
+      "tags": [
+        "milo",
+        "javascript"
+      ],
+      "description": "Everybody has a share"
+    }
+  ]
+}

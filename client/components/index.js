@@ -1,0 +1,2 @@
+require('./ChannelsPane');
+require('./ChannelItem');
