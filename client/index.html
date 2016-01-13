@@ -44,8 +44,8 @@
         </div>
 
         <div class="new-message">
-            <input>
-            <button type="button">Send</button>
+            <input ml-bind="[events]:newMessage">
+            <button type="button" ml-bind="[events]:sendMessage">Send</button>
         </div>
     </div>
 </body>

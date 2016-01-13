@@ -20,6 +20,13 @@ function childrenBound() {
 
     this.messages = this.container.scope.messages;
     this.info = this.container.scope.info;
+    this.newMessage = this.container.scope.newMessage;
+
+    this.newMessage.events.on('keypress',
+        { subscriber: onKeyPress, context: this });
+
+    this.container.scope.sendMessage.events.on('click',
+        { subscriber: sendMessage, context: this });
 }
 
 
@@ -38,6 +45,24 @@ function showChannel(msg, data) {
         return ch.id == id;
     });
     this.info.data.set(info);
+}
+
+
+function onKeyPress(eventType, event) {
+    if (event.keyCode == 13) sendMessage.call(this);
+}
+
+
+function sendMessage() {
+    var text = this.newMessage.el.value;
+    if (!text) return window.alert('Please enter text');
+
+    this.newMessage.el.value = '';
+    this.messagesDb.push({
+        text: text,
+        channel_id: this.channel_id,
+        timestamp: new Date
+    });
 }
 
 },{"../db":6}],2:[function(require,module,exports){
