@@ -69,7 +69,7 @@ function sendMessage() {
     });
 }
 
-},{"../db":8}],2:[function(require,module,exports){
+},{"../db":9}],2:[function(require,module,exports){
 'use strict';
 
 var ChannelItem = milo.createComponentClass({
@@ -111,7 +111,8 @@ function showSelected() {
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var db = require('../db');
+var db = require('../db')
+    , createChannel = require('../create_channel');
 
 
 var ChannelsPane = milo.createComponentClass({
@@ -129,10 +130,14 @@ function childrenBound() {
     ChannelsPane.super.childrenBound.apply(this, arguments);
     this.channelsList = this.container.scope.channelsList;
     this.channelsList.data.set(db('.channels').get());
+
+    this.createChannel = this.container.scope.createChannel;
+    this.createChannel.events.on('click', createChannel);
+
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
 
-},{"../db":8}],4:[function(require,module,exports){
+},{"../create_channel":7,"../db":9}],4:[function(require,module,exports){
 'use strict';
 
 var UserHandle = milo.registry.components.get('UserHandle');
@@ -220,6 +225,93 @@ require('./Channel');
 require('./MessageItem');
 
 },{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3,"./MessageItem":4,"./UserHandle":5}],7:[function(require,module,exports){
+'use strict';
+
+var db = require('./db');
+var tagOptions = require('./taglist.json').sort(_.compareProperty('label'));
+var MLDialog = milo.registry.components.get('MLDialog');
+var MLForm = milo.registry.components.get('MLForm');
+
+module.exports = createChannel;
+
+
+function createChannel() {
+    var dialog = MLDialog.createDialog({
+        title: 'Create new channel',
+        html: 'Please enter channel meta data:',
+        buttons: [
+            {
+                label: 'Cancel',
+                result: 'CANCEL'
+            },
+            {
+                label: 'Create',
+                result: 'OK',
+                close: false
+            }
+        ]
+    });
+
+    var form = MLForm.createForm(getFormSchema());
+    dialog.container.scope.dialogBody.container.append(form);
+    form.validateModel();
+
+    dialog.openDialog(function (result) {
+        if (result == 'OK' && form.isValid()) {
+            var newMeta = form.model.get();
+            var length = db('.channels').len();
+            newMeta.id = 'ch' + (length + 1);
+            db('.channels').push(newMeta);
+            dialog.closeDialog();
+            dialog.destroy();
+        }
+    });
+}
+
+
+function getFormSchema() {
+    return {
+        items: [
+            {
+                type: 'input',
+                label: 'Channel title',
+                modelPath: '.title',
+                validate: {
+                    fromModel: ['required'],
+                    toModel: ['required']
+                }
+            },
+            {
+                type: 'input',
+                label: 'Channel description',
+                modelPath: '.description',
+                validate: {
+                    fromModel: ['required'],
+                    toModel: ['required']
+                }
+            },
+            {
+                type: 'combolist',
+                label: 'Tags',
+                modelPath: '.tags',
+                comboOptions: tagOptions,
+                translate: {
+                    toModel: function (val) {
+                        return val && val.map(function (v) { return v.value; });
+                    }
+                }
+            },
+            {
+                type: 'checkbox',
+                label: 'Private',
+                wrapCssClass: 'checkbox',
+                modelPath: '.isPrivate'
+            }
+        ]
+    };
+}
+
+},{"./db":9,"./taglist.json":11}],8:[function(require,module,exports){
 module.exports={
   "channels": [
     {
@@ -260,14 +352,14 @@ module.exports={
     ]
   }
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var data = require('./db.json');
 
 module.exports = window.slackDB = new milo.Model(data);
 
-},{"./db.json":7}],9:[function(require,module,exports){
+},{"./db.json":8}],10:[function(require,module,exports){
 'use strict';
 
 require('./components');
@@ -276,4 +368,116 @@ milo(function() {
     milo.binder();
 });
 
-},{"./components":6}]},{},[9]);
+},{"./components":6}],11:[function(require,module,exports){
+module.exports=[
+    { "label": "eclipse", "value": "eclipse" },
+    { "label": "string", "value": "string" },
+    { "label": "windows", "value": "windows" },
+    { "label": "html5", "value": "html5" },
+    { "label": "wordpress", "value": "wordpress" },
+    { "label": "excel", "value": "excel" },
+    { "label": "multithreading", "value": "multithreading" },
+    { "label": "spring", "value": "spring" },
+    { "label": "swift", "value": "swift" },
+    { "label": "facebook", "value": "facebook" },
+    { "label": "image", "value": "image" },
+    { "label": "milojs", "value": "milojs" },
+    { "label": "forms", "value": "forms" },
+    { "label": "oracle", "value": "oracle" },
+    { "label": "git", "value": "git" },
+    { "label": "winforms", "value": "winforms" },
+    { "label": "osx", "value": "osx" },
+    { "label": "bash", "value": "bash" },
+    { "label": "algorithm", "value": "algorithm" },
+    { "label": "apache", "value": "apache" },
+    { "label": "performance", "value": "performance" },
+    { "label": "swing", "value": "swing" },
+    { "label": "twitter-bootstrap", "value": "twitter-bootstrap" },
+    { "label": "mongodb", "value": "mongodb" },
+    { "label": "matlab", "value": "matlab" },
+    { "label": "ruby-on-rails-3", "value": "ruby-on-rails-3" },
+    { "label": "entity-framework", "value": "entity-framework" },
+    { "label": "vba", "value": "vba" },
+    { "label": "linq", "value": "linq" },
+    { "label": "hibernate", "value": "hibernate" },
+    { "label": "visual-studio", "value": "visual-studio" },
+    { "label": "perl", "value": "perl" },
+    { "label": "list", "value": "list" },
+    { "label": "web-services", "value": "web-services" },
+    { "label": "css3", "value": "css3" },
+    { "label": "postgresql", "value": "postgresql" },
+    { "label": "javascript", "value": "javascript" },
+    { "label": "java", "value": "java" },
+    { "label": "c#", "value": "c#" },
+    { "label": "php", "value": "php" },
+    { "label": "android", "value": "android" },
+    { "label": "jquery", "value": "jquery" },
+    { "label": "python", "value": "python" },
+    { "label": "html", "value": "html" },
+    { "label": "c++", "value": "c++" },
+    { "label": "ios", "value": "ios" },
+    { "label": "mysql", "value": "mysql" },
+    { "label": "css", "value": "css" },
+    { "label": "sql", "value": "sql" },
+    { "label": "asp.net", "value": "asp.net" },
+    { "label": "objective-c", "value": "objective-c" },
+    { "label": "ruby-on-rails", "value": "ruby-on-rails" },
+    { "label": ".net", "value": ".net" },
+    { "label": "iphone", "value": "iphone" },
+    { "label": "c", "value": "c" },
+    { "label": "arrays", "value": "arrays" },
+    { "label": "sql-server", "value": "sql-server" },
+    { "label": "ruby", "value": "ruby" },
+    { "label": "angularjs", "value": "angularjs" },
+    { "label": "json", "value": "json" },
+    { "label": "ajax", "value": "ajax" },
+    { "label": "regex", "value": "regex" },
+    { "label": "xml", "value": "xml" },
+    { "label": "asp.net-mvc", "value": "asp.net-mvc" },
+    { "label": "r", "value": "r" },
+    { "label": "linux", "value": "linux" },
+    { "label": "wpf", "value": "wpf" },
+    { "label": "django", "value": "django" },
+    { "label": "node.js", "value": "node.js" },
+    { "label": "database", "value": "database" },
+    { "label": "xcode", "value": "xcode" },
+    { "label": "vb.net", "value": "vb.net" },
+    { "label": "qt", "value": "qt" },
+    { "label": "visual-studio-2010", "value": "visual-studio-2010" },
+    { "label": "scala", "value": "scala" },
+    { "label": "sql-server-2008", "value": "sql-server-2008" },
+    { "label": "sqlite", "value": "sqlite" },
+    { "label": "function", "value": "function" },
+    { "label": "wcf", "value": "wcf" },
+    { "label": "file", "value": "file" },
+    { "label": "python-2.7", "value": "python-2.7" },
+    { "label": "uitableview", "value": "uitableview" },
+    { "label": "shell", "value": "shell" },
+    { "label": "codeigniter", "value": "codeigniter" },
+    { "label": "api", "value": "api" },
+    { "label": "cordova", "value": "cordova" },
+    { "label": "validation", "value": "validation" },
+    { "label": "class", "value": "class" },
+    { "label": "rest", "value": "rest" },
+    { "label": "google-maps", "value": "google-maps" },
+    { "label": "excel-vba", "value": "excel-vba" },
+    { "label": "actionscript-3", "value": "actionscript-3" },
+    { "label": "maven", "value": "maven" },
+    { "label": "asp.net-mvc-3", "value": "asp.net-mvc-3" },
+    { "label": "sockets", "value": "sockets" },
+    { "label": "jsp", "value": "jsp" },
+    { "label": "unit-testing", "value": "unit-testing" },
+    { "label": "google-chrome", "value": "google-chrome" },
+    { "label": "symfony2", "value": "symfony2" },
+    { "label": "xaml", "value": "xaml" },
+    { "label": "tsql", "value": "tsql" },
+    { "label": "security", "value": "security" },
+    { "label": "asp.net-mvc-4", "value": "asp.net-mvc-4" },
+    { "label": "email", "value": "email" },
+    { "label": "loops", "value": "loops" },
+    { "label": "android-layout", "value": "android-layout" },
+    { "label": "sorting", "value": "sorting" },
+    { "label": "cocoa", "value": "cocoa" }
+]
+
+},{}]},{},[10]);

@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/client/css/bootstrap-modal.css">
     <link rel="stylesheet" type="text/css" href="/client/css/style.css">
     <script src="/node_modules/milojs/dist/milo.bundle.js"></script>
+    <script src="/node_modules/milo-ui/dist/milo_ui.bundle.js"></script>
     <script src="/client/app.bundle.js"></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
             </li>
         </ul>
 
-        <button type="button">Create</button>
+        <button type="button" ml-bind="[events]:createChannel">Create</button>
     </div>
 
 
