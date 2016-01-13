@@ -18,7 +18,6 @@ var ChannelsPane = milo.createComponentClass({
 function childrenBound() {
     ChannelsPane.super.childrenBound.apply(this, arguments);
     this.channelsList = this.container.scope.channelsList;
-    this.channelsList.data.set(db('.channels').get());
 
     this.createChannel = this.container.scope.createChannel;
     this.createChannel.events.on('click', createChannel);

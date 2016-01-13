@@ -69,7 +69,7 @@ function sendMessage() {
     });
 }
 
-},{"../db":9}],2:[function(require,module,exports){
+},{"../db":8}],2:[function(require,module,exports){
 'use strict';
 
 var ChannelItem = milo.createComponentClass({
@@ -129,7 +129,6 @@ var ChannelsPane = milo.createComponentClass({
 function childrenBound() {
     ChannelsPane.super.childrenBound.apply(this, arguments);
     this.channelsList = this.container.scope.channelsList;
-    this.channelsList.data.set(db('.channels').get());
 
     this.createChannel = this.container.scope.createChannel;
     this.createChannel.events.on('click', createChannel);
@@ -137,7 +136,7 @@ function childrenBound() {
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
 
-},{"../create_channel":7,"../db":9}],4:[function(require,module,exports){
+},{"../create_channel":7,"../db":8}],4:[function(require,module,exports){
 'use strict';
 
 var UserHandle = milo.registry.components.get('UserHandle');
@@ -311,64 +310,44 @@ function getFormSchema() {
     };
 }
 
-},{"./db":9,"./taglist.json":11}],8:[function(require,module,exports){
-module.exports={
-  "channels": [
-    {
-      "id": "ch1",
-      "title": "Welcome",
-      "tags": [
-        "chat",
-        "welcome"
-      ],
-      "description": "Welcome to slack clone"
-    },
-    {
-      "id": "ch2",
-      "title": "Milo",
-      "tags": [
-        "milo",
-        "javascript"
-      ],
-      "description": "Everybody has a share"
-    }
-  ],
-  "messages": {
-    "ch1": [
-      {
-        "userHandle": "Jason",
-        "text": "Hello there. You are using slack clone",
-        "channel_id": "ch1",
-        "timestamp": "2016-01-08T18:06:44.869Z"
-      }
-    ],
-    "ch2": [
-      {
-        "userHandle": "Evgeny",
-        "text": "Making full stack reactivity with milo",
-        "channel_id": "ch2",
-        "timestamp": "2016-01-08T18:05:46.299Z"
-      }
-    ]
-  }
-}
+},{"./db":8,"./taglist.json":10}],8:[function(require,module,exports){
+'use strict';
+
+module.exports = window.slackDB = new milo.Model;
+
 },{}],9:[function(require,module,exports){
 'use strict';
 
-var data = require('./db.json');
-
-module.exports = window.slackDB = new milo.Model(data);
-
-},{"./db.json":8}],10:[function(require,module,exports){
-'use strict';
-
 require('./components');
+var db = require('./db');
 
 milo(function() {
     milo.binder();
+
+    var socket = io(window.location.origin);
+
+    socket.on('connect', function() {
+        socket.on('db', function (msg) {
+            db.set(msg.data);
+            db.on('datachanges', updateDB);
+        });
+
+        socket.on('datachanges', function (msg) {
+            db.off('datachanges', updateDB);
+            db.postMessageSync('changedata', msg.data);
+            _.defer(function() {
+                db.on('datachanges', updateDB);
+            });
+        });
+
+    });
+
+    function updateDB(msg, data) {
+        if (data.changes.length) socket.emit('datachanges', { data: data });
+    }
 });
 
-},{"./components":6}],11:[function(require,module,exports){
+},{"./components":6,"./db":8}],10:[function(require,module,exports){
 module.exports=[
     { "label": "eclipse", "value": "eclipse" },
     { "label": "string", "value": "string" },
@@ -480,4 +459,4 @@ module.exports=[
     { "label": "cocoa", "value": "cocoa" }
 ]
 
-},{}]},{},[10]);
+},{}]},{},[9]);
