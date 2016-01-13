@@ -2,52 +2,48 @@
 <html>
 <head>
     <title>slack clone</title>
-    <script src="/node_modules/socket.io-client/socket.io.js"></script>
-    <script src="/node_modules/milojs/dist/milo.bundle.js"></script>
-    <script src="/node_modules/milo-ui/dist/milo_ui.bundle.js"></script>
-    <script src="/client/app.bundle.js"></script>
     <link rel="stylesheet" type="text/css" href="/client/css/bootstrap-modal.css">
     <link rel="stylesheet" type="text/css" href="/client/css/style.css">
 </head>
 <body>
-    <div ml-bind="ChannelsPane:channelsPane" class="channels-pane">
+    <div class="channels-pane">
         <h2>Channels</h2>
-        <ul ml-bind="[list]:channelsList">
-            <li ml-bind="ChannelItem">
-                <span ml-bind="[data]:id" class="hidden"></span>
-                <span ml-bind="[data]:title"></span>
+        <ul>
+            <li>
+                <span class="hidden"></span>
+                <span></span>
             </li>
         </ul>
 
-        <button type="button" ml-bind="[events]:createChannel">Create</button>
+        <button type="button">Create</button>
     </div>
 
 
-    <div ml-bind="UserHandle:userHandle" class="user-handle">
+    <div class="user-handle">
         <input placeholder="Your handle">
     </div>
 
 
-    <div ml-bind="Channel:channel" class="channel">
+    <div class="channel">
 
-        <div ml-bind="[container,data]:info" class="channel-info">
-            <h2 ml-bind="[data]:title"></h2>
-            <div ml-bind="[data]:description"></div>
-            <ul ml-bind="[list]:tags" class="channel-tags">
-                <li ml-bind="[item]:" class="channel-tag"></li>
+        <div class="channel-info">
+            <h2></h2>
+            <div></div>
+            <ul class="channel-tags">
+                <li class="channel-tag"></li>
             </ul>
         </div>
 
-        <div ml-bind="[list]:messages" class="channel-messages">
-            <div ml-bind="MessageItem" class="message">
-                <span ml-bind="[data]:userHandle" class="author"></span>:
-                <span ml-bind="[data]:text"></span>
+        <div class="channel-messages">
+            <div class="message">
+                <span class="author"></span>:
+                <span></span>
             </div>
         </div>
 
         <div class="new-message">
-            <input ml-bind="[events]:newMessage">
-            <button type="button" ml-bind="[events]:sendMessage">Send</button>
+            <input>
+            <button type="button">Send</button>
         </div>
     </div>
 </body>
