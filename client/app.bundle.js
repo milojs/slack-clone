@@ -134,6 +134,14 @@ function childrenBound() {
     this.createChannel.events.on('click', createChannel);
 
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
+    
+    this.channelsList.data.once('', { subscriber: selectFirstChannel, context: this });
+}
+
+
+function selectFirstChannel() {
+    var item = this.channelsList.list.item(0);
+    if (item) item.select();
 }
 
 },{"../create_channel":7,"../db":8}],4:[function(require,module,exports){
