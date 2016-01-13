@@ -15,21 +15,62 @@ var ChannelItem = milo.createComponentClass({
 },{}],2:[function(require,module,exports){
 'use strict';
 
+var db = require('../db');
+
+
 var ChannelsPane = milo.createComponentClass({
     className: 'ChannelsPane',
     facets: {
         container: undefined
     },
     methods: {
-
+        childrenBound: childrenBound
     }
 });
 
-},{}],3:[function(require,module,exports){
+
+function childrenBound() {
+    ChannelsPane.super.childrenBound.apply(this, arguments);
+    this.channelsList = this.container.scope.channelsList;
+    this.channelsList.data.set(db('.channels').get());
+    milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
+}
+
+},{"../db":5}],3:[function(require,module,exports){
 require('./ChannelsPane');
 require('./ChannelItem');
 
 },{"./ChannelItem":1,"./ChannelsPane":2}],4:[function(require,module,exports){
+module.exports={
+  "channels": [
+    {
+      "id": "ch1",
+      "title": "Welcome",
+      "tags": [
+        "chat",
+        "welcome"
+      ],
+      "description": "Welcome to slack clone"
+    },
+    {
+      "id": "ch2",
+      "title": "Milo",
+      "tags": [
+        "milo",
+        "javascript"
+      ],
+      "description": "Everybody has a share"
+    }
+  ]
+}
+},{}],5:[function(require,module,exports){
+'use strict';
+
+var data = require('./db.json');
+
+module.exports = window.slackDB = new milo.Model(data);
+
+},{"./db.json":4}],6:[function(require,module,exports){
 'use strict';
 
 require('./components');
@@ -38,4 +79,4 @@ milo(function() {
     milo.binder();
 });
 
-},{"./components":3}]},{},[4]);
+},{"./components":3}]},{},[6]);
