@@ -10,7 +10,7 @@ var UserHandle = milo.createComponentClass({
         }
     },
     methods: {
-        childrenBound: childrenBound,
+        start: start,
         setHandle: setHandle,
         getHandle: getHandle
     },
@@ -23,16 +23,14 @@ var UserHandle = milo.createComponentClass({
 var HANDLE_KEY = '/slack_clone/userHandle';
 
 
-function childrenBound() {
-    UserHandle.super.childrenBound.apply(this, arguments);
-    this.handleText = this.el.querySelector('input');
-    var handleText = this.getHandle();
-    if (handleText) this.handleText.value = handleText;
+function start() {
+    UserHandle.super.start.apply(this, arguments);
+    this.el.value = this.getHandle() || '';
 }
 
 
 function onInput() {
-    var handleText = this.handleText.value;
+    var handleText = this.el.value;
     this.setHandle(handleText);
 }
 

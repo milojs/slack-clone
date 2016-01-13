@@ -18,14 +18,13 @@ milo(function() {
 
         socket.on('datachanges', function (msg) {
             db.off('datachanges', updateDB);
-            db.postMessageSync('changedata', msg.data, function() {
+            db.postMessageSync('changedata', msg.data);
+            _.defer(function() {
                 db.on('datachanges', updateDB);
             });
         });
 
     });
-
-    updateDB = _.throttle(updateDB, 500, { leading: false });
 
     function updateDB(msg, data) {
         if (data.changes.length) socket.emit('datachanges', { data: data });
