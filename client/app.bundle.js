@@ -21,6 +21,7 @@ function childrenBound() {
     this.messages = this.container.scope.messages;
     this.info = this.container.scope.info;
     this.newMessage = this.container.scope.newMessage;
+    this.userHandle = this.scope.userHandle;
 
     this.newMessage.events.on('keypress',
         { subscriber: onKeyPress, context: this });
@@ -54,18 +55,21 @@ function onKeyPress(eventType, event) {
 
 
 function sendMessage() {
+    var userHandle = this.userHandle.getHandle();
+    if (!userHandle) return window.alert('Please choose your handle');
     var text = this.newMessage.el.value;
     if (!text) return window.alert('Please enter text');
 
     this.newMessage.el.value = '';
     this.messagesDb.push({
+        userHandle: userHandle,
         text: text,
         channel_id: this.channel_id,
         timestamp: new Date
     });
 }
 
-},{"../db":6}],2:[function(require,module,exports){
+},{"../db":7}],2:[function(require,module,exports){
 'use strict';
 
 var ChannelItem = milo.createComponentClass({
@@ -128,12 +132,60 @@ function childrenBound() {
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
 
-},{"../db":6}],4:[function(require,module,exports){
+},{"../db":7}],4:[function(require,module,exports){
+'use strict';
+
+var UserHandle = milo.createComponentClass({
+    className: 'UserHandle',
+    facets: {
+        events: {
+            messages: {
+                'input': { subscriber: onInput, context: 'owner' }
+            }
+        }
+    },
+    methods: {
+        start: start,
+        setHandle: setHandle,
+        getHandle: getHandle
+    },
+    staticMethods: {
+        getHandle: getHandle
+    }
+});
+
+
+var HANDLE_KEY = '/slack_clone/userHandle';
+
+
+function start() {
+    UserHandle.super.start.apply(this, arguments);
+    this.el.value = this.getHandle() || '';
+}
+
+
+function onInput() {
+    var handleText = this.el.value;
+    this.setHandle(handleText);
+}
+
+
+function getHandle() {
+    return window.localStorage.getItem(HANDLE_KEY);
+}
+
+
+function setHandle(text) {
+    window.localStorage.setItem(HANDLE_KEY, text);
+}
+
+},{}],5:[function(require,module,exports){
+require('./UserHandle');
 require('./ChannelsPane');
 require('./ChannelItem');
 require('./Channel');
 
-},{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3}],5:[function(require,module,exports){
+},{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3,"./UserHandle":4}],6:[function(require,module,exports){
 module.exports={
   "channels": [
     {
@@ -174,14 +226,14 @@ module.exports={
     ]
   }
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var data = require('./db.json');
 
 module.exports = window.slackDB = new milo.Model(data);
 
-},{"./db.json":5}],7:[function(require,module,exports){
+},{"./db.json":6}],8:[function(require,module,exports){
 'use strict';
 
 require('./components');
@@ -190,4 +242,4 @@ milo(function() {
     milo.binder();
 });
 
-},{"./components":4}]},{},[7]);
+},{"./components":5}]},{},[8]);

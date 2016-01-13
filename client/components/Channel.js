@@ -20,6 +20,7 @@ function childrenBound() {
     this.messages = this.container.scope.messages;
     this.info = this.container.scope.info;
     this.newMessage = this.container.scope.newMessage;
+    this.userHandle = this.scope.userHandle;
 
     this.newMessage.events.on('keypress',
         { subscriber: onKeyPress, context: this });
@@ -53,11 +54,14 @@ function onKeyPress(eventType, event) {
 
 
 function sendMessage() {
+    var userHandle = this.userHandle.getHandle();
+    if (!userHandle) return window.alert('Please choose your handle');
     var text = this.newMessage.el.value;
     if (!text) return window.alert('Please enter text');
 
     this.newMessage.el.value = '';
     this.messagesDb.push({
+        userHandle: userHandle,
         text: text,
         channel_id: this.channel_id,
         timestamp: new Date
