@@ -26,20 +26,20 @@
     </div>
 
 
-    <div class="channel">
+    <div ml-bind="Channel:channel" class="channel">
 
-        <div class="channel-info">
-            <h2></h2>
-            <div></div>
-            <ul class="channel-tags">
-                <li class="channel-tag"></li>
+        <div ml-bind="[container,data]:info" class="channel-info">
+            <h2 ml-bind="[data]:title"></h2>
+            <div ml-bind="[data]:description"></div>
+            <ul ml-bind="[list]:tags" class="channel-tags">
+                <li ml-bind="[item]:" class="channel-tag"></li>
             </ul>
         </div>
 
-        <div class="channel-messages">
-            <div class="message">
-                <span class="author"></span>:
-                <span></span>
+        <div ml-bind="[list]:messages" class="channel-messages">
+            <div ml-bind="[item]:" class="message">
+                <span ml-bind="[data]:userHandle" class="author"></span>:
+                <span ml-bind="[data]:text"></span>
             </div>
         </div>
 

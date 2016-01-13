@@ -1,18 +1,85 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var db = require('../db');
+
+var Channel = milo.createComponentClass({
+    className: 'Channel',
+    facets: {
+        container: undefined
+    },
+    methods: {
+        childrenBound: childrenBound
+    }
+});
+
+
+function childrenBound() {
+    Channel.super.childrenBound.apply(this, arguments);
+    milo.mail.on('showchannel', { subscriber: showChannel, context: this });
+
+    this.messages = this.container.scope.messages;
+    this.info = this.container.scope.info;
+}
+
+
+function showChannel(msg, data) {
+    var id = this.channel_id = data.id;
+
+    var messagesDb = this.messagesDb = db('.messages.$1', id);
+    if (!messagesDb.get()) messagesDb.set([]);
+
+    if (this.connector) milo.minder.destroyConnector(this.connector);
+    this.messages.data.set(messagesDb.get());
+    this.connector = milo.minder(messagesDb, '->>>', this.messages.data);
+
+    var channels = db('.channels').get();
+    var info = channels.find(function(ch) {
+        return ch.id == id;
+    });
+    this.info.data.set(info);
+}
+
+},{"../db":6}],2:[function(require,module,exports){
+'use strict';
+
 var ChannelItem = milo.createComponentClass({
     className: 'ChannelItem',
     facets: {
         data: undefined,
-        item: undefined
+        item: undefined,
+        events: {
+            messages: {
+                'click': { subscriber: onChannelClick, context: 'owner' }
+            }
+        }
     },
     methods: {
-
+        select: select
     }
 });
 
-},{}],2:[function(require,module,exports){
+
+function onChannelClick() {
+    this.select();
+}
+
+
+function select() {
+    var id = this.data.path('.id').get();
+    milo.mail.postMessage('showchannel', { id: id });
+    showSelected.call(this);
+}
+
+
+function showSelected() {
+    this.item.list.each(function (comp) {
+        comp.el.classList.remove('selected');
+    });
+    this.el.classList.add('selected');
+}
+
+},{}],3:[function(require,module,exports){
 'use strict';
 
 var db = require('../db');
@@ -36,11 +103,12 @@ function childrenBound() {
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
 
-},{"../db":5}],3:[function(require,module,exports){
+},{"../db":6}],4:[function(require,module,exports){
 require('./ChannelsPane');
 require('./ChannelItem');
+require('./Channel');
 
-},{"./ChannelItem":1,"./ChannelsPane":2}],4:[function(require,module,exports){
+},{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3}],5:[function(require,module,exports){
 module.exports={
   "channels": [
     {
@@ -61,16 +129,34 @@ module.exports={
       ],
       "description": "Everybody has a share"
     }
-  ]
+  ],
+  "messages": {
+    "ch1": [
+      {
+        "userHandle": "Jason",
+        "text": "Hello there. You are using slack clone",
+        "channel_id": "ch1",
+        "timestamp": "2016-01-08T18:06:44.869Z"
+      }
+    ],
+    "ch2": [
+      {
+        "userHandle": "Evgeny",
+        "text": "Making full stack reactivity with milo",
+        "channel_id": "ch2",
+        "timestamp": "2016-01-08T18:05:46.299Z"
+      }
+    ]
+  }
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var data = require('./db.json');
 
 module.exports = window.slackDB = new milo.Model(data);
 
-},{"./db.json":4}],6:[function(require,module,exports){
+},{"./db.json":5}],7:[function(require,module,exports){
 'use strict';
 
 require('./components');
@@ -79,4 +165,4 @@ milo(function() {
     milo.binder();
 });
 
-},{"./components":3}]},{},[6]);
+},{"./components":4}]},{},[7]);
