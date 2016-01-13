@@ -69,7 +69,7 @@ function sendMessage() {
     });
 }
 
-},{"../db":7}],2:[function(require,module,exports){
+},{"../db":8}],2:[function(require,module,exports){
 'use strict';
 
 var ChannelItem = milo.createComponentClass({
@@ -132,7 +132,40 @@ function childrenBound() {
     milo.minder(db('.channels'), '<<<->>>', this.channelsList.data);
 }
 
-},{"../db":7}],4:[function(require,module,exports){
+},{"../db":8}],4:[function(require,module,exports){
+'use strict';
+
+var UserHandle = milo.registry.components.get('UserHandle');
+
+
+var MessageItem = milo.createComponentClass({
+    className: 'MessageItem',
+    facets: {
+        data: undefined,
+        item: undefined,
+        css: {
+            classes: {
+                '.userHandle': isAuthor
+            }
+        }
+    },
+    methods: {
+        start: start
+    }
+});
+
+
+function start() {
+    MessageItem.super.start.apply(this, arguments);
+    milo.minder(this.data, '->>', this.css);
+}
+
+
+function isAuthor(handleText) {
+    if (handleText == UserHandle.getHandle()) return 'current-user';
+}
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var UserHandle = milo.createComponentClass({
@@ -179,13 +212,14 @@ function setHandle(text) {
     window.localStorage.setItem(HANDLE_KEY, text);
 }
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 require('./UserHandle');
 require('./ChannelsPane');
 require('./ChannelItem');
 require('./Channel');
+require('./MessageItem');
 
-},{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3,"./UserHandle":4}],6:[function(require,module,exports){
+},{"./Channel":1,"./ChannelItem":2,"./ChannelsPane":3,"./MessageItem":4,"./UserHandle":5}],7:[function(require,module,exports){
 module.exports={
   "channels": [
     {
@@ -226,14 +260,14 @@ module.exports={
     ]
   }
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 var data = require('./db.json');
 
 module.exports = window.slackDB = new milo.Model(data);
 
-},{"./db.json":6}],8:[function(require,module,exports){
+},{"./db.json":7}],9:[function(require,module,exports){
 'use strict';
 
 require('./components');
@@ -242,4 +276,4 @@ milo(function() {
     milo.binder();
 });
 
-},{"./components":5}]},{},[8]);
+},{"./components":6}]},{},[9]);

@@ -37,7 +37,7 @@
         </div>
 
         <div ml-bind="[list]:messages" class="channel-messages">
-            <div ml-bind="[item]:" class="message">
+            <div ml-bind="MessageItem" class="message">
                 <span ml-bind="[data]:userHandle" class="author"></span>:
                 <span ml-bind="[data]:text"></span>
             </div>
