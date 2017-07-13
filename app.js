@@ -7,6 +7,7 @@ var express = require('express')
     , db = require('./server/db')
     , milo = require('milo-core');
 
+console.log('Starting app on port 4000');
 server.listen(4000);
 
 app.use(express.static(__dirname));

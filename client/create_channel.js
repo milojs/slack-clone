@@ -14,10 +14,12 @@ function createChannel() {
         html: 'Please enter channel meta data:',
         buttons: [
             {
+                type: 'default',
                 label: 'Cancel',
                 result: 'CANCEL'
             },
             {
+                type: 'default',
                 label: 'Create',
                 result: 'OK',
                 close: false
